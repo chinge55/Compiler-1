@@ -121,9 +121,27 @@ newsymlist(struct symbol *sym, struct symlist *next)
 
 // Evaluation part -End
 //Destruction Part
+void treefree(struct ast *a)
+{
 
+}
 
 
 
 //Destruction part -End
+//Error checking part
+void yyerror(char *s, ...)
+{
+  va_list ap;
+  va_start(ap, s);
+  fprintf(stderr, "%d Error", yylineno);
+  vfprintf(stderr, s, ap);
+  fprintf(stderr);
+}
+
+//Error checking part -End
 //Main Function
+int main()
+{
+  return yyparse();
+}
