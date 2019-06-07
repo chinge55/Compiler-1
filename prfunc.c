@@ -84,6 +84,23 @@ newasgn(struct symbol *s, struct ast *v)
   a->s = s;
   a->v = v;
   return (struct ast *)a;
+  /*This logic is not yet finalized
+    don't assign and show error
+  else
+    assign the data and also put it in symbol table
+  if(symbolcheck(s,v))
+    struct symasgn *a = malloc(sizeof(struct symasgn));
+  
+    if(!a) {
+      yyerror("out of space");
+      exit(0);
+    }
+    a->nodetype = '=';
+    a->s = s;
+    a->v = v;
+    call the lookup function and if both the code don't show errors, return the value 
+    return (struct ast *)a;
+  */
 }
 struct ast *
 newflow(int nodetype, struct ast *cond, struct ast *tl, struct ast *el)
