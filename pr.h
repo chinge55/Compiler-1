@@ -24,6 +24,11 @@ struct numval
     int nodetype;
     double number;
 };
+struct symref
+{
+    int nodetype;
+    struct symbol *s;
+}
 /*
 Node types:
 I= If condition

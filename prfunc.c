@@ -86,7 +86,7 @@ newasgn(struct symbol *s, struct ast *v)
   return (struct ast *)a;
   /*This logic is not yet finalized
   if(symbolcheck(s,v))
-    don't assign and show error
+    don't assign and show error that the declaration exists
   else
     assign the data and also put it in symbol table
     struct symasgn *a = malloc(sizeof(struct symasgn));
@@ -129,6 +129,31 @@ newsymlist(struct symbol *sym, struct symlist *next)
   sl->sym = sym;
   sl->next = next;
   return sl;
+}
+        // These functions are not yet declared in pr.h
+struct ast* ref(struct symbol *s)
+{
+  // Call the lookup Function
+  if(lookup(s))
+  {
+    // (Work to be done)extract data from the symbol table
+    struct symref *a = malloc(sizeof(struct symref));
+    if(!a)
+    {
+      yyerror("Out of space");
+      exit(0);
+    }
+    a->nodetype = 'N';
+    a->s = s;
+    return (struct ast*)a;
+  }
+  else
+  {
+      // call the error function
+      yyerror("variable not assigned");
+      exit(0);
+  }
+  
 }
 // Called functions part -End
 //Evaluation Part
