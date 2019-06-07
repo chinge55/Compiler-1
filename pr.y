@@ -71,8 +71,7 @@ exp: exp CMP exp                                   { /* Write AST FUNCTIONS*/}
    |'(' exp ')'                                     {$$ = $2;}
    | '-' exp %prec UMINUS                           {$$ = newast('M', $2, NULL);}
    | NUMBER                                         {$$ = newnum($1);}
-   | NAME                                           {$$ = newref($1);}
    | NAME '=' exp                                   {$$ = newasgn($1, $3);}
-   | NAME '(' explist ')'                           {$$ = newcall($1, $3);}
+   ;
 %%
 
