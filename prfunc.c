@@ -85,10 +85,10 @@ newasgn(struct symbol *s, struct ast *v)
   a->v = v;
   return (struct ast *)a;
   /*This logic is not yet finalized
+  if(symbolcheck(s,v))
     don't assign and show error
   else
     assign the data and also put it in symbol table
-  if(symbolcheck(s,v))
     struct symasgn *a = malloc(sizeof(struct symasgn));
   
     if(!a) {
