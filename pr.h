@@ -9,7 +9,7 @@ struct symbol
 };
 #define NHASH 9997;
 struct symbol symtab[NHASH];
-struct symbol *lookup(char*);
+bool *lookup(char*);
 
 
 // Things for symbol table -end

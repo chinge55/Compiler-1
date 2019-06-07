@@ -23,7 +23,8 @@ void updatesymbol(char symbol, int val);
 %token EOL
 
 %token THEN ELSE NABHAYESAMMAN BHAYESAMMAN 
-
+%nonassoc ELSE
+%nonassoc THEN
 %nonassoc <fn> CMP
 %right '='
 %left '+' '-'
@@ -46,21 +47,16 @@ calclist:
             treefree($2);
             printf(">");
         }
-stmt: open_stmt
-    | closed_stmt
-    ;
-open_stmt: exp THEN simple_stmt                    {$$ = newflow('I', $1, $3, NULL);}
-         | exp THEN open_stmt                      {$$ = newflow('I', $1, $3, NULL);}
-         | exp THEN closed_stmt ELSE open_stmt     {$$ = newflow('I', $1, $3, $5);} 
-         | exp NABHAYESAMMAN open_stmt             {$$ = newflow('B', $1, $3, NULL);}
-         | exp BHAYESAMMAN open_stmt               {$$ = newflow('N', $1, $3, NULL);}
-         ;
-closed_stmt: simple_stmt                            {} 
-         | exp THEN closed_stmt ELSE closed_stmt   {$$ = newflow('I', $1, $3, $5);}
-         | exp BHAYESAMMAN closed_stmt             {$$ = newflow('B', $1, $3, NULL);}
-         | exp NABHAYESAMMAN closed_stmt           {$$ = newflow('B', $1, $3, NULL);}
-         ;
-simple_stmt: exp
+/*
+    Dangling else is not going to be a problem because we are going to use purnabirams
+*/
+stmt: exp THEN stmt                                 {$$ = newflow('I', $1, $3, NULL);}
+    | exp THEN stmt ELSE stmt
+    | exp BHAYESAMMAN stmt
+    | exp NABHAYESAMMAN stmt
+    | exp
+    | PRINT exp
+    | EXIT
 
 exp: exp CMP exp                                   { /* Write AST FUNCTIONS*/}
    | exp '+' exp                                    {$$ = newast('+', $1, $3);}

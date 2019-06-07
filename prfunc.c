@@ -14,8 +14,7 @@ static unsigned symhash(char *sym)
     while(c = *sym++) hash = hash*9^c;
     return hash;
 }
-
-struct symbol *lookup(char* sym)
+bool lookup(char* sym)
 {
     // Work Yet to be done
 }
@@ -72,37 +71,6 @@ newcmp(int cmptype, struct ast *l, struct ast *r)
 }
 
 struct ast *
-newasgn(struct symbol *s, struct ast *v)
-{
-  struct symasgn *a = malloc(sizeof(struct symasgn));
-  
-  if(!a) {
-    yyerror("out of space");
-    exit(0);
-  }
-  a->nodetype = '=';
-  a->s = s;
-  a->v = v;
-  return (struct ast *)a;
-  /*This logic is not yet finalized
-  if(symbolcheck(s,v))
-    don't assign and show error that the declaration exists
-  else
-    assign the data and also put it in symbol table
-    struct symasgn *a = malloc(sizeof(struct symasgn));
-  
-    if(!a) {
-      yyerror("out of space");
-      exit(0);
-    }
-    a->nodetype = '=';
-    a->s = s;
-    a->v = v;
-    call the lookup function and if both the code don't show errors, return the value 
-    return (struct ast *)a;
-  */
-}
-struct ast *
 newflow(int nodetype, struct ast *cond, struct ast *tl, struct ast *el)
 {
   struct flow *a = malloc(sizeof(struct flow));
@@ -154,6 +122,37 @@ struct ast* ref(struct symbol *s)
       exit(0);
   }
   
+}
+struct ast *
+newasgn(struct symbol *s, struct ast *v)
+{
+  struct symasgn *a = malloc(sizeof(struct symasgn));
+  
+  if(!a) {
+    yyerror("out of space");
+    exit(0);
+  }
+  a->nodetype = '=';
+  a->s = s;
+  a->v = v;
+  return (struct ast *)a;
+  /*This logic is not yet finalized
+  if(symbolcheck(s,v))
+    don't assign and show error that the declaration exists
+  else
+    assign the data and also put it in symbol table
+    struct symasgn *a = malloc(sizeof(struct symasgn));
+  
+    if(!a) {
+      yyerror("out of space");
+      exit(0);
+    }
+    a->nodetype = '=';
+    a->s = s;
+    a->v = v;
+    call the lookup function and if both the code don't show errors, return the value 
+    return (struct ast *)a;
+  */
 }
 // Called functions part -End
 //Evaluation Part
