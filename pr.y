@@ -51,12 +51,12 @@ calclist:
     Dangling else is not going to be a problem because we are going to use purnabirams
 */
 stmt: exp THEN stmt                                 {$$ = newflow('I', $1, $3, NULL);}
-    | exp THEN stmt ELSE stmt
-    | exp BHAYESAMMAN stmt
-    | exp NABHAYESAMMAN stmt
+    | exp THEN stmt ELSE stmt                       {$$ = newflow('I', $1, $3, $5);}
+    | exp BHAYESAMMAN stmt                          {$$ = newflow('B', $1, $3, NULL);}
+    | exp NABHAYESAMMAN stmt                        {$$ = newflow('N', $1, $3, NULL);}
     | exp
-    | PRINT exp
-    | EXIT
+    | PRINT exp                                     {$$ = newprint('P', $1);}
+    | EXIT                                          {exit("EXIT SUCCESS");}
 
 exp: exp CMP exp                                   { /* Write AST FUNCTIONS*/}
    | exp '+' exp                                    {$$ = newast('+', $1, $3);}
